@@ -1,34 +1,39 @@
 app:
-  name: AppzElasticsearch
-  code: AES
-  notify: appz@cloudbourne.co
-
+    name: elasticsearch
+    code: ELASTICSEARCH
+    notify: jjpaul@ecloudcontrol.com
 build:
-  version: 7.9
-  env: DEV
-  build_file: none
-  output_files: output/*.zip
-  image_template: elasticsearch-7.9
-  image_name: alpha/elasticsearch
-
+    version: 7.10
+    env: DEV
+    build_file: none
+    output_files: output/*.zip
+    image_template: elasticsearch-7.10
+ 
 deploy:
-  context: alpha/DEV
-  type: elasticsearch6  
-  replicas: 1
-  port:
-  - 9200
-  - 9300
-
+    context: jojin77/DEV
+    replicas: 1
+    type: statefulset
+    port:
+    - 9200
+    - 9300
 volumes:
-- claim: elasticsearch-data
-  mount: /appz/data
-  name: elasticsearch-data
-  size: 20Gi
-  mode: ReadWriteOnce
-  class: microk8s-hostpath
-
-monitor:
-  notify: appzops@cloudbourne.co      
-
+  - claim: elastic-data
+    mount: /appz/data
+    name: data
+    size: 10Gi
+    
 properties:
-  revision : 04
+    #ELASTIC_PASSWORD:
+        #vault: ELASTIC_PASSWORD
+    #ES_DEFAULT_USER: elastic
+    #ES_LOG_STYLE: console
+    #ES_USER1: User1
+    #ES_PASS1:
+        #vault: ES_PASS1
+    #ES_ROLE1: superuser
+    #ES_USER2: user2
+    #ES_PASS2: 
+        #vault: ES_PASS2
+    #ES_ROLE2: superuser
+    #TINI_SUBREAPER: true
+    revision: 1
